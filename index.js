@@ -46,6 +46,7 @@ function convertImage(pdfPath) {
     })
 }
 
+
 const download = async (link, path) => {
     const download = new DownloaderHelper(link, path);
     download.start();
@@ -106,7 +107,7 @@ async function parse() {
                             setTimeout(() => {
                                 api.sendPhoto({
                                     chat_id: chat_id,
-                                    caption: `Рассписание занятий на ${$('div.content tbody tr:eq(1) > td:eq(1) a').contents().first().text()} 1/2`,
+                                    caption: `Рассписание занятий на ${$('div.content tbody tr:eq(1) > td:eq(1) a').contents().first().text()} 2/2`,
                                     photo: fs.createReadStream(pathREQ2)
                                 })
                                 console.log("Рассписание опубликованно 2/2")
@@ -205,7 +206,7 @@ async function parse() {
                         setTimeout(() => {
                             api.sendPhoto({
                                 chat_id: chat_id,
-                                caption: `Рассписание занятий на ${$('div.content tbody tr:eq(1) > td:eq(1) a').contents().first().text()} 1/2`,
+                                caption: `Рассписание занятий на ${$('div.content tbody tr:eq(1) > td:eq(1) a').contents().first().text()} 2/2`,
                                 photo: fs.createReadStream(pathREQ2)
                             })
                             console.log("Рассписание опубликованно 2/2")
@@ -220,7 +221,7 @@ async function parse() {
 }
 
 
-schedule.scheduleJob('*/1 * * * *', () => {
+schedule.scheduleJob('*/5 * * * *', () => {
     parse()
 })
 
