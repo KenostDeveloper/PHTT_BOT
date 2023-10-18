@@ -221,7 +221,7 @@ async function parse() {
 }
 
 
-schedule.scheduleJob('*/5 * * * *', () => {
+schedule.scheduleJob('*/1 * * * *', () => {
     parse()
 })
 
