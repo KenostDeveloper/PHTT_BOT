@@ -10,6 +10,7 @@
     "node-downloader-helper": "^2.1.7",
     "node-poppler": "^6.2.7",
     "node-schedule": "^2.1.1",
+    "node-telegram-bot-api": "^0.64.0",
     "pdf-img-convert": "^1.2.1",
     "pdf-poppler": "^0.2.1",
     "pdf-to-img": "^2.1.1",
