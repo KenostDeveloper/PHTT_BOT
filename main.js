@@ -38,15 +38,78 @@ const download = async (link, path, name) => {
 
 async function convertImage(pdfPath, numberCorpus) {
     const poppler = new Poppler();
-    const options = {
-        firstPageToConvert: 1,
-        lastPageToConvert: 2,
-        pngFile: true,
-    };
-    const outputFile =  'rasp-' + numberCorpus;
 
-    const res = await poppler.pdfToCairo(pdfPath, outputFile, options);
-    console.log(res);
+    if(numberCorpus == '2'){
+        for(let i = 0; i<=3; i++){
+            let options = {};
+            switch(i){
+                case 0:
+                    options = {
+                        firstPageToConvert: 1,
+                        lastPageToConvert: 1,
+                        pngFile: true,
+                        scalePageTo: 5000,
+                        cropWidth: 3000,
+                        cropHeight: 1470
+                    };
+                    break
+                case 1:
+                    options = {
+                        firstPageToConvert: 1,
+                        lastPageToConvert: 1,
+                        pngFile: true,
+                        scalePageTo: 5000,
+                        cropYAxis: 1470,
+                        cropWidth: 3000,
+                        cropHeight: 1900
+                    };
+                    break
+                case 2:
+                    options = {
+                        firstPageToConvert: 2,
+                        lastPageToConvert: 2,
+                        pngFile: true,
+                        scalePageTo: 5000,
+                        cropWidth: 3000,
+                        cropHeight: 1950
+                    };
+                    break
+                case 3:
+                    options = {
+                        firstPageToConvert: i < 2? 1 : 2,
+                        lastPageToConvert: i < 2? 1 : 2,
+                        pngFile: true,
+                        scalePageTo: 5000,
+                        cropYAxis: 1940,
+                        cropWidth: 3000,
+                        cropHeight: 1000
+                    };
+                    break
+            }
+            
+
+
+            const outputFile =  `rasp-${numberCorpus}-${i}`;
+            const res = await poppler.pdfToCairo(pdfPath, outputFile, options);
+            console.log(res);
+
+            
+        }
+    }else{
+        const options = {
+            firstPageToConvert: 1,
+            lastPageToConvert: 2,
+            pngFile: true,
+        };
+
+        const outputFile =  'rasp-' + numberCorpus;
+
+        const res = await poppler.pdfToCairo(pdfPath, outputFile, options);
+        console.log(res);
+    }
+
+    
+    
 }
 
 async function parse() {
@@ -128,7 +191,72 @@ async function check(linkOne, linkTwo, numberCorpus){
 
                             let data = $(`div.content tbody tr:eq(${numberCorpus * 2 - 1}) > td:eq(1) a`).contents().first().text();
 
-                            if(numberCorpus != '3'){
+
+                            console.log('-----------------', numberCorpus)
+
+                            if(numberCorpus == '3'){
+                                setTimeout(() => {
+                                    let pathIMG = './rasp-'+ numberCorpus +'-1.png'
+    
+                                    bot.sendMediaGroup(chat_id, [
+                                        {
+                                            type: "photo",
+                                            media: fs.createReadStream(pathIMG),
+                                            caption: 'Расписание занятий на '+ data + reclam,
+                                        }
+                                    ]);
+
+                                    setTimeout(() => {
+                                        if (fs.existsSync(pathIMG)) { 
+                                            fs.unlinkSync(pathIMG)
+                                        }
+                                    }, 5000)
+                                }, 5000)
+                            } else if(numberCorpus == '2'){
+                                setTimeout(() => {
+                                    let pathIMG = './rasp-'+ numberCorpus +'-0-1.png'
+                                    let pathIMG2 = './rasp-'+ numberCorpus +'-1-1.png'
+                                    let pathIMG3 = './rasp-'+ numberCorpus +'-2-2.png'
+                                    let pathIMG4 = './rasp-'+ numberCorpus +'-3-2.png'
+
+                                    console.log('-----------------pathIMG', pathIMG)
+
+                                    bot.sendMediaGroup(chat_id, [
+                                        {
+                                            type: "photo",
+                                            media: fs.createReadStream(pathIMG),
+                                            caption: 'Расписание занятий на '+ data + reclam,
+                                        },
+                                        {
+                                            type: "photo",
+                                            media: fs.createReadStream(pathIMG2)
+                                        },
+                                        {
+                                            type: "photo",
+                                            media: fs.createReadStream(pathIMG3)
+                                        },
+                                        {
+                                            type: "photo",
+                                            media: fs.createReadStream(pathIMG4)
+                                        }
+                                    ]);
+
+                                    setTimeout(() => {
+                                        if (fs.existsSync(pathIMG)) { 
+                                            fs.unlinkSync(pathIMG)
+                                        }
+                                        if (fs.existsSync(pathIMG2)) { 
+                                            fs.unlinkSync(pathIMG2)
+                                        }
+                                        if (fs.existsSync(pathIMG3)) { 
+                                            fs.unlinkSync(pathIMG3)
+                                        }
+                                        if (fs.existsSync(pathIMG4)) { 
+                                            fs.unlinkSync(pathIMG4)
+                                        }
+                                    }, 5000)
+                                }, 15000)
+                            }else{
                                 setTimeout(() => {
                                     let pathIMG = './rasp-'+ numberCorpus +'-1.png'
                                     let pathIMG2 = './rasp-'+ numberCorpus +'-2.png'
@@ -151,24 +279,6 @@ async function check(linkOne, linkTwo, numberCorpus){
                                         }
                                         if (fs.existsSync(pathIMG2)) { 
                                             fs.unlinkSync(pathIMG2)
-                                        }
-                                    }, 5000)
-                                }, 5000)
-                            }else{
-                                setTimeout(() => {
-                                    let pathIMG = './rasp-'+ numberCorpus +'-1.png'
-    
-                                    bot.sendMediaGroup(chat_id, [
-                                        {
-                                            type: "photo",
-                                            media: fs.createReadStream(pathIMG),
-                                            caption: 'Расписание занятий на '+ data + reclam,
-                                        }
-                                    ]);
-
-                                    setTimeout(() => {
-                                        if (fs.existsSync(pathIMG)) { 
-                                            fs.unlinkSync(pathIMG)
                                         }
                                     }, 5000)
                                 }, 5000)
@@ -224,11 +334,73 @@ async function check(linkOne, linkTwo, numberCorpus){
                             let data = $(`div.content tbody tr:eq(${numberCorpus * 2 - 1}) > td:eq(0) a`).contents().first().text();
 
     
-                            if(numberCorpus != '3'){
+                            if(numberCorpus == '3'){
+                                setTimeout(() => {
+                                    let pathIMG = './rasp-'+ numberCorpus +'-1.png'
+    
+                                    bot.sendMediaGroup(chat_id, [
+                                        {
+                                            type: "photo",
+                                            media: fs.createReadStream(pathIMG),
+                                            caption: 'Расписание занятий на '+ data + reclam,
+                                        }
+                                    ]);
+
+                                    setTimeout(() => {
+                                        if (fs.existsSync(pathIMG)) { 
+                                            fs.unlinkSync(pathIMG)
+                                        }
+                                    }, 5000)
+                                }, 5000)
+                            } else if(numberCorpus == '2'){
+                                setTimeout(() => {
+                                    let pathIMG = './rasp-'+ numberCorpus +'-0-1.png'
+                                    let pathIMG2 = './rasp-'+ numberCorpus +'-1-1.png'
+                                    let pathIMG3 = './rasp-'+ numberCorpus +'-2-2.png'
+                                    let pathIMG4 = './rasp-'+ numberCorpus +'-3-2.png'
+
+                                    console.log('-----------------pathIMG', pathIMG)
+
+                                    bot.sendMediaGroup(chat_id, [
+                                        {
+                                            type: "photo",
+                                            media: fs.createReadStream(pathIMG),
+                                            caption: 'Расписание занятий на '+ data + reclam,
+                                        },
+                                        {
+                                            type: "photo",
+                                            media: fs.createReadStream(pathIMG2)
+                                        },
+                                        {
+                                            type: "photo",
+                                            media: fs.createReadStream(pathIMG3)
+                                        },
+                                        {
+                                            type: "photo",
+                                            media: fs.createReadStream(pathIMG4)
+                                        }
+                                    ]);
+
+                                    setTimeout(() => {
+                                        if (fs.existsSync(pathIMG)) { 
+                                            fs.unlinkSync(pathIMG)
+                                        }
+                                        if (fs.existsSync(pathIMG2)) { 
+                                            fs.unlinkSync(pathIMG2)
+                                        }
+                                        if (fs.existsSync(pathIMG3)) { 
+                                            fs.unlinkSync(pathIMG3)
+                                        }
+                                        if (fs.existsSync(pathIMG4)) { 
+                                            fs.unlinkSync(pathIMG4)
+                                        }
+                                    }, 5000)
+                                }, 15000)
+                            }else{
                                 setTimeout(() => {
                                     let pathIMG = './rasp-'+ numberCorpus +'-1.png'
                                     let pathIMG2 = './rasp-'+ numberCorpus +'-2.png'
-    
+
                                     bot.sendMediaGroup(chat_id, [
                                         {
                                             type: "photo",
@@ -247,24 +419,6 @@ async function check(linkOne, linkTwo, numberCorpus){
                                         }
                                         if (fs.existsSync(pathIMG2)) { 
                                             fs.unlinkSync(pathIMG2)
-                                        }
-                                    }, 5000)
-                                }, 5000)
-                            }else{
-                                setTimeout(() => {
-                                    let pathIMG = './rasp-'+ numberCorpus +'-1.png'
-    
-                                    bot.sendMediaGroup(chat_id, [
-                                        {
-                                            type: "photo",
-                                            media: fs.createReadStream(pathIMG),
-                                            caption: 'Расписание занятий на '+ data + reclam,
-                                        }
-                                    ]);
-
-                                    setTimeout(() => {
-                                        if (fs.existsSync(pathIMG)) { 
-                                            fs.unlinkSync(pathIMG)
                                         }
                                     }, 5000)
                                 }, 5000)
@@ -377,7 +531,7 @@ async function check(linkOne, linkTwo, numberCorpus){
 
 async function main() {
     const app = express();
-    app.listen(PORT, '127.0.0.1', () => console.log('Запуск на порту: ', PORT));
+    app.listen(PORT, '127.0.0.1', () => console.log('Запуск на порту:', PORT));
 }
 
 schedule.scheduleJob('*/1 * * * *', () => {
