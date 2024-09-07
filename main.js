@@ -12,11 +12,13 @@ const TelegramBot = require('node-telegram-bot-api');
 const pdf2base64 = require('pdf-to-base64');
 const e = require('express');
 
-const PORT = 9999;
+const PORT = 5555;
 const token = '6044941057:AAFDcuZwPqM58_jqJ64LQD5lKebZB8-nyvQ';
 const chat_id1 = '-1001969732629' //-1001683480810
 const chat_id2 = '-1001969732629' //-1002068004495
 const chat_id3 = '-1001969732629' //-1002122308269
+
+//-1001969732629 TEST
 
 const bot = new TelegramBot(token, {polling: true});
 
@@ -142,6 +144,15 @@ async function check(linkOne, linkTwo, numberCorpus){
                                             media: fs.createReadStream(pathIMG2)
                                         }
                                     ]);
+
+                                    setTimeout(() => {
+                                        if (fs.existsSync(pathIMG)) { 
+                                            fs.unlinkSync(pathIMG)
+                                        }
+                                        if (fs.existsSync(pathIMG2)) { 
+                                            fs.unlinkSync(pathIMG2)
+                                        }
+                                    }, 5000)
                                 }, 5000)
                             }else{
                                 setTimeout(() => {
@@ -154,6 +165,12 @@ async function check(linkOne, linkTwo, numberCorpus){
                                             caption: 'Расписание занятий на '+ data + reclam,
                                         }
                                     ]);
+
+                                    setTimeout(() => {
+                                        if (fs.existsSync(pathIMG)) { 
+                                            fs.unlinkSync(pathIMG)
+                                        }
+                                    }, 5000)
                                 }, 5000)
                             }
                             
@@ -174,8 +191,12 @@ async function check(linkOne, linkTwo, numberCorpus){
                         if (fs.existsSync('./Rasp/rasp-'+ numberCorpus +'.pdf')) { 
                             fs.unlinkSync('./Rasp/rasp-'+ numberCorpus +'.pdf')
                         }
-                        //Загружаем новый
-                        download(linkOne, './Rasp', 'rasp-'+numberCorpus);
+                        
+                        setTimeout(() => {
+                            //Загружаем новый
+                            download(linkOne, './Rasp', 'rasp-'+numberCorpus);
+                        }, 2000)
+
                         //Записываем новый Base64
                         fs.appendFileSync(fileInfoOne, base64LinkOne);
 
@@ -219,6 +240,15 @@ async function check(linkOne, linkTwo, numberCorpus){
                                             media: fs.createReadStream(pathIMG2)
                                         }
                                     ]);
+
+                                    setTimeout(() => {
+                                        if (fs.existsSync(pathIMG)) { 
+                                            fs.unlinkSync(pathIMG)
+                                        }
+                                        if (fs.existsSync(pathIMG2)) { 
+                                            fs.unlinkSync(pathIMG2)
+                                        }
+                                    }, 5000)
                                 }, 5000)
                             }else{
                                 setTimeout(() => {
@@ -231,6 +261,12 @@ async function check(linkOne, linkTwo, numberCorpus){
                                             caption: 'Расписание занятий на '+ data + reclam,
                                         }
                                     ]);
+
+                                    setTimeout(() => {
+                                        if (fs.existsSync(pathIMG)) { 
+                                            fs.unlinkSync(pathIMG)
+                                        }
+                                    }, 5000)
                                 }, 5000)
                             }
                         }, 5000);
@@ -246,8 +282,12 @@ async function check(linkOne, linkTwo, numberCorpus){
                         fs.unlinkSync('./Rasp/rasp-'+ numberCorpus +'.pdf')
                     }
 
-                    //Загружаем новый
-                    download(linkOne, './Rasp', 'rasp-'+numberCorpus);
+                    setTimeout(() => {
+                        //Загружаем новый
+                        download(linkOne, './Rasp', 'rasp-'+numberCorpus);
+                    }, 2000)
+                    
+
                     //Записываем новый Base64
                     fs.appendFileSync(fileInfoTwo, base64LinkTwo);
                     fs.appendFileSync(fileInfoOne, base64LinkOne);
@@ -291,6 +331,15 @@ async function check(linkOne, linkTwo, numberCorpus){
                                         media: fs.createReadStream(pathIMG2)
                                     }
                                 ]);
+
+                                setTimeout(() => {
+                                    if (fs.existsSync(pathIMG)) { 
+                                        fs.unlinkSync(pathIMG)
+                                    }
+                                    if (fs.existsSync(pathIMG2)) { 
+                                        fs.unlinkSync(pathIMG2)
+                                    }
+                                }, 5000)
                             }, 5000)
                         }else{
                             setTimeout(() => {
@@ -303,6 +352,12 @@ async function check(linkOne, linkTwo, numberCorpus){
                                         caption: 'Расписание занятий на '+ data + reclam,
                                     }
                                 ]);
+
+                                setTimeout(() => {
+                                    if (fs.existsSync(pathIMG)) { 
+                                        fs.unlinkSync(pathIMG)
+                                    }
+                                }, 5000)
                             }, 5000)
                         }
                     }, 5000);
