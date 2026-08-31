@@ -33,6 +33,15 @@ async function processSlot(corpus, slot, firstRun) {
 
     const { hash } = await downloadPdf(slot.url, pdfPath);
 
+    // Режим синхронизации: запоминаем всё, что сейчас на сайте, без рассылки.
+    if (config.SYNC_ONLY) {
+        state.writeHash(corpus.id, slot.slot, hash);
+        log.info(
+            `Корпус ${corpus.id} (${slot.slot}, ${slot.date}): состояние запомнено, отправка пропущена`,
+        );
+        return false;
+    }
+
     if (previousHash === hash) return false;
 
     // Первый запуск без истории: запоминаем текущее состояние молча,
@@ -108,6 +117,8 @@ async function main() {
     log.info("Корпуса в работе:", config.CORPUSES.map((c) => c.id).join(", "));
     log.info("Poppler:", config.POPPLER_PATH || "из PATH");
     log.info("Ширина картинок:", `${config.IMAGE_WIDTH}px`);
+
+    if (config.SYNC_ONLY) log.info("Режим синхронизации: рассылки не будет");
 
     if (config.RUN_ONCE) {
         await checkAll();
