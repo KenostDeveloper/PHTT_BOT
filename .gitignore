@@ -23,3 +23,8 @@ dist/
 build/
 .cache/
 .tmp/
+# Скачанные расписания и локальная история
+Rasp/*.pdf
+Rasp2/
+info/*.txt
+info/*.sha256

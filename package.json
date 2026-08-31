@@ -1,27 +1,20 @@
 {
-  "dependencies": {
-    "@pspdfkit/nodejs": "^0.0.3",
-    "axios": "^1.4.0",
-    "cheerio": "^1.0.0-rc.12",
-    "express": "^4.18.2",
-    "file-system": "^2.2.2",
-    "fs-extra": "^11.1.1",
-    "jquery": "^3.7.1",
-    "node-downloader-helper": "^2.1.7",
-    "node-poppler": "^6.2.7",
-    "node-schedule": "^2.1.1",
-    "node-telegram-bot-api": "^0.64.0",
-    "pdf-img-convert": "^1.2.1",
-    "pdf-poppler": "^0.2.1",
-    "pdf-to-base64": "^1.0.3",
-    "pdf-to-img": "^2.1.1",
-    "pdf2image": "^1.2.3",
-    "pdf2img": "^0.5.0",
-    "pdf2pic": "^2.1.4",
-    "telegraf": "^4.12.2",
-    "telegram-bot-api": "^2.0.1"
-  },
+  "name": "phtt-bot",
+  "version": "2.0.0",
+  "description": "Бот рассылки расписания занятий ПХТТ в Telegram",
+  "main": "main.js",
   "scripts": {
-    "dev": "node index.js"
+    "start": "node main.js",
+    "dev": "node main.js",
+    "once": "CHECK_ON_START=true RUN_ONCE=true node main.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "cheerio": "^1.0.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "node-poppler": "^7.2.2",
+    "node-schedule": "^2.1.1",
+    "node-telegram-bot-api": "^0.66.0"
   }
 }
